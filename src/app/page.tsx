@@ -1,5 +1,5 @@
 import React from 'react'
-import AdventCalendar from '@/components/AdventCalendar';
+import { AdventCalendar } from '@/components/AdventCalendar'
 
 export default function Home() {
   return (
