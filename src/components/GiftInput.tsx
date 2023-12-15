@@ -1,0 +1,37 @@
+'use client'
+import React from 'react'
+
+interface GiftInputProps {
+  setGifts: React.Dispatch<React.SetStateAction<string[]>>
+  gifts: string[]
+}
+
+const GiftInput: React.FC<GiftInputProps> = ({gifts, setGifts}) => {
+  const [value, setValue] = React.useState<string>('')
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setGifts([...gifts, value])
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type='text'
+        value={value}
+        placeholder='Agregue un regalo'
+        onChange={e => setValue(e.target.value)}
+        className='border border-black px-4 py-2 rounded-l-lg focus:outline-none focus:border-red-600 transition'
+      />
+
+      <button
+        className='bg-red-600 border border-black text-white px-4 py-2 rounded-r-lg hover:bg-red-500 transition duration-300 ease-in-out'
+        type='submit'
+      >
+        Agregar
+      </button>
+    </form>
+  )
+}
+
+export default GiftInput
