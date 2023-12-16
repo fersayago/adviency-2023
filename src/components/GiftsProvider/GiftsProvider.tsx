@@ -9,6 +9,7 @@ interface GiftsContextType {
   gifts: IGift[],
   addGift: (gift: IGift) => void,
   removeGift: (id: string) => void,
+  clearGifts: () => void,
 }
 
 const DEFAULT_GIFTS: IGift[] = [
@@ -34,6 +35,7 @@ export const GiftsContext = createContext<GiftsContextType>({
   gifts: DEFAULT_GIFTS,
   addGift: () => {},
   removeGift: () => {},
+  clearGifts: () => {},
 });
 
 function GiftsProvider({ children }: GiftsProviderProps) {
@@ -52,10 +54,15 @@ function GiftsProvider({ children }: GiftsProviderProps) {
     setGifts(nextGifts);
   }
 
+  function clearGifts() {
+    setGifts([]);
+  }
+
   const contextValue: GiftsContextType = {
     gifts,
     addGift,
     removeGift,
+    clearGifts,
   };
 
   return (
