@@ -1,17 +1,21 @@
 'use client'
 import React from 'react'
+import { GiftsContext } from '@/components/GiftsProvider'
 
-interface GiftInputProps {
-  setGifts: React.Dispatch<React.SetStateAction<string[]>>
-  gifts: string[]
-}
 
-const GiftInput: React.FC<GiftInputProps> = ({gifts, setGifts}) => {
+const GiftInput = () => {
   const [value, setValue] = React.useState<string>('')
+  const { addGift } = React.useContext(GiftsContext)
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+
     e.preventDefault()
-    setGifts([...gifts, value])
+    addGift({
+      id: crypto.randomUUID(),
+      gift: value
+    })
+    
+    setValue('')
   }
 
   return (
