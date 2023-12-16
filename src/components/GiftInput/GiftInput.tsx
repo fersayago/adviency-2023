@@ -12,7 +12,7 @@ const GiftInput = () => {
     e.preventDefault()
     addGift({
       id: crypto.randomUUID(),
-      gift: value
+      name: value
     })
     
     setValue('')

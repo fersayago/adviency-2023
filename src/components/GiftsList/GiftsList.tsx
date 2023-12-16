@@ -7,10 +7,10 @@ const GiftsList = () => {
   const { gifts } = React.useContext(GiftsContext);
 
   return (
-    <ul>
+    <ul className="pt-5">
       {
-        gifts.map(({id, gift}) => (
-          <ListItem key={id} item={gift}/>
+        gifts.map((gift) => (
+          <ListItem key={gift.id} gift={gift}/>
         ))
       }
     </ul>
