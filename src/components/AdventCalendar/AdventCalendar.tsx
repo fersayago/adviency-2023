@@ -1,17 +1,9 @@
-'use client'
 import React from 'react'
 import { GiftInput } from '../GiftInput'
 import { GiftsList } from '../GiftsList'
 import { GiftsProvider } from '../GiftsProvider'
 
-const DEFAULT_GIFTS = [
-  'Medias',
-  'Caramelos',
-  'Vitel Tone',
-]
-
 const AdventCalendar = () => {
-  const [gifts, setGifts] = React.useState<string[]>(DEFAULT_GIFTS)
 
   return (
     <GiftsProvider>
