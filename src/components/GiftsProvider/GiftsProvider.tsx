@@ -10,24 +10,29 @@ interface GiftsContextType {
   addGift: (gift: IGift) => void,
   removeGift: (id: string) => void,
   clearGifts: () => void,
+  editGift: (gift: IGift) => void,
 }
 
 const DEFAULT_GIFTS: IGift[] = [
   {
     id: crypto.randomUUID(),
     name: 'Medias',
+    quantity: 2,
   },
   {
     id: crypto.randomUUID(),
     name: 'Caramelos',
+    quantity: 5,
   },
   {
     id: crypto.randomUUID(),
     name: 'Pan Dulce',
+    quantity: 1,
   },
   {
     id: crypto.randomUUID(),
     name: 'Vitel Tone',
+    quantity: 1,
   }
 ]
 
@@ -36,6 +41,7 @@ export const GiftsContext = createContext<GiftsContextType>({
   addGift: () => {},
   removeGift: () => {},
   clearGifts: () => {},
+  editGift: () => {},
 });
 
 function GiftsProvider({ children }: GiftsProviderProps) {
@@ -54,6 +60,20 @@ function GiftsProvider({ children }: GiftsProviderProps) {
     setGifts(nextGifts);
   }
 
+  function editGift(newGift: IGift) {
+    const giftIndex = gifts.findIndex(gift => gift.id === newGift.id);
+
+    if (giftIndex !== -1) {
+      const updatedGifts = [...gifts];
+      updatedGifts[giftIndex] = {
+        ...updatedGifts[giftIndex],
+        ...newGift
+      }
+
+      setGifts(updatedGifts);
+    }
+  }
+
   function clearGifts() {
     setGifts([]);
   }
@@ -63,6 +83,7 @@ function GiftsProvider({ children }: GiftsProviderProps) {
     addGift,
     removeGift,
     clearGifts,
+    editGift,
   };
 
   return (
