@@ -36,6 +36,8 @@ const DEFAULT_GIFTS: IGift[] = [
   }
 ]
 
+const LOCAL_STORAGE_KEY = 'gifts';
+
 export const GiftsContext = createContext<GiftsContextType>({
   gifts: DEFAULT_GIFTS,
   addGift: () => {},
@@ -45,7 +47,16 @@ export const GiftsContext = createContext<GiftsContextType>({
 });
 
 function GiftsProvider({ children }: GiftsProviderProps) {
-  const [gifts, setGifts] = React.useState(DEFAULT_GIFTS);
+  const [gifts, setGifts] = React.useState(() => {
+    const storedGifts = localStorage.getItem(LOCAL_STORAGE_KEY);
+    return storedGifts
+    ? JSON.parse(storedGifts)
+    : DEFAULT_GIFTS;
+  });
+
+  React.useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(gifts))
+  }, [gifts]);
 
   function addGift(gift: IGift) {
     const nextGifts = [
@@ -56,12 +67,12 @@ function GiftsProvider({ children }: GiftsProviderProps) {
   }
 
   function removeGift(id: string) {
-    const nextGifts = gifts.filter(gift => gift.id !== id);
+    const nextGifts = gifts.filter((gift: IGift) => gift.id !== id);
     setGifts(nextGifts);
   }
 
   function editGift(newGift: IGift) {
-    const giftIndex = gifts.findIndex(gift => gift.id === newGift.id);
+    const giftIndex = gifts.findIndex((gift: IGift) => gift.id === newGift.id);
 
     if (giftIndex !== -1) {
       const updatedGifts = [...gifts];
