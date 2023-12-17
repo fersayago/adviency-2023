@@ -1,3 +1,4 @@
+'use client'
 import React, { createContext } from 'react';
 import IGift from '@/interfaces/IGift';
 
