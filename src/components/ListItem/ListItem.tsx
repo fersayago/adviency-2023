@@ -13,10 +13,6 @@ const ListItem: React.FC<ListItemProps> = ({gift}) => {
     removeGift(gift.id)
   }
 
-  React.useEffect(() => {
-    console.log('gifts', gifts)
-  })
-
   return (
     <li className='flex items-center justify-between border-b border-gray-200 py-2 px-3'>
       {gift.quantity}x {gift.name}
