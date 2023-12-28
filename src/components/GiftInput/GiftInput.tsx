@@ -10,7 +10,7 @@ const GiftInput = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-
+    if (!gifts) throw new Error('Gifts is null')
     const repeatedGift = gifts.find(g => g.name === gift)
 
     if (repeatedGift) {
