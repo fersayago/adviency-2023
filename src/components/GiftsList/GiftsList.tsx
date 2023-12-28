@@ -1,10 +1,17 @@
 import React from 'react'
 import { ListItem } from '@/components/ListItem';
 import { GiftsContext } from '@/components/GiftsProvider';
+import Spinner from '../Spinner';
 
 
 const GiftsList = () => {
   const { gifts } = React.useContext(GiftsContext);
+
+  if (!gifts) {
+    return (
+      <Spinner />
+    )
+  }
 
   if (gifts.length === 0) {
     return (

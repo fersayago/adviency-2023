@@ -7,7 +7,7 @@ interface GiftsProviderProps {
 }
 
 interface GiftsContextType {
-  gifts: IGift[],
+  gifts: IGift[] | null,
   addGift: (gift: IGift) => void,
   removeGift: (id: string) => void,
   clearGifts: () => void,
@@ -48,18 +48,26 @@ export const GiftsContext = createContext<GiftsContextType>({
 });
 
 function GiftsProvider({ children }: GiftsProviderProps) {
-  const [gifts, setGifts] = React.useState(() => {
-    const storedGifts = localStorage.getItem(LOCAL_STORAGE_KEY);
-    return storedGifts
-    ? JSON.parse(storedGifts)
-    : DEFAULT_GIFTS;
-  });
+  const [gifts, setGifts] = React.useState<IGift[] | null>(null);
 
   React.useEffect(() => {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(gifts))
-  }, [gifts]);
+    const giftsFromLocalStorage = localStorage.getItem(LOCAL_STORAGE_KEY);
+
+    if (giftsFromLocalStorage) {
+      setGifts(JSON.parse(giftsFromLocalStorage));
+    } else {
+      setGifts(DEFAULT_GIFTS);
+    }
+  }, [])
+
+  React.useEffect(() => {
+    if (gifts) {
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(gifts))
+    }
+  }, [gifts])
 
   function addGift(gift: IGift) {
+    if (!gifts) throw new Error('Gifts is null');
     const nextGifts = [
       ...gifts,
       gift
@@ -68,11 +76,13 @@ function GiftsProvider({ children }: GiftsProviderProps) {
   }
 
   function removeGift(id: string) {
+    if (!gifts) throw new Error('Gifts is null');
     const nextGifts = gifts.filter((gift: IGift) => gift.id !== id);
     setGifts(nextGifts);
   }
 
   function editGift(newGift: IGift) {
+    if (!gifts) throw new Error('Gifts is null');
     const giftIndex = gifts.findIndex((gift: IGift) => gift.id === newGift.id);
 
     if (giftIndex !== -1) {

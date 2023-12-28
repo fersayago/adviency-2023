@@ -10,6 +10,7 @@ const ClearGifts = () => {
   }
 
   React.useEffect(() => {
+    if (!gifts) return
     setIsEnabled(gifts.length > 0)
   }, [gifts])
 
